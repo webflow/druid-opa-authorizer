@@ -1,0 +1,44 @@
+# Reviewflow config — https://github.com/webflow/reviewflow/blob/main/docs/configuration.md
+# This repo's file — yours. Written once by `init`, never synced. Tune it for this repo.
+
+# Neither review doc is in Reviewflow's defaults, and an unlisted file never reaches the
+# reviewer — nothing reports that it didn't. Order matters: the doc loader skips a whole file
+# rather than truncating, so a large doc listed first can push a later one out entirely.
+# `.claude/CLAUDE.md` is deliberately absent: it is a bare `@../AGENTS.md` import, and listing
+# both would load AGENTS.md twice against the same budget.
+docFilePatterns:
+  - REVIEW.md
+  - .dpe-agent-config/docs/review-standard.md
+  - AGENTS.md
+
+# Raise if this repo's PRs routinely exceed the 128k default — generated configs and
+# infrastructure diffs do. Drop this line to take the default.
+maxDiffChars: 256000
+
+# Add this repo's own generated and vendored paths. Ignored paths are dropped from the
+# changed-file list, so never ignore something REVIEW.md has a rule about.
+#
+# The vendored tree is ignored per-subdirectory rather than wholesale. A sync PR's whole diff
+# is that tree, already reviewed on the dpe-agent-config PR that released it. CHECKSUM,
+# VERSION and verification.sh stay visible: a CHECKSUM change with no VERSION bump is the
+# tamper signal, and it only works if those files are in the changed-file list.
+#
+# This assumes `verification.sh drift` is a required check here. `init` writes no CI workflow
+# -- that file is yours -- so without it, narrow these patterns or drop them.
+ignoredFilePatterns:
+  # The prose only, listed as what IS prose rather than what isn't. Anything that executes with
+  # your session's privileges stays reviewable: `hooks/**`, `lefthook.yml` and `templates/`,
+  # which become a consumer's hook registration; `docs/` is named file by file so a sync PR
+  # cannot rewrite the reviewer's own instructions unseen, and `skills/` is narrowed to `*.md`.
+  - .dpe-agent-config/.gitignore
+  - .dpe-agent-config/README.md
+  - .dpe-agent-config/CODEOWNERS.snippet
+  - .dpe-agent-config/docs/md-standards.md
+  - .dpe-agent-config/skills/**/*.md
+  - package-lock.json
+  - node_modules/**
+
+# Let a zero-finding review post APPROVE — the only way a stale change-request from the bot
+# clears, since it cannot dismiss its own (reviewflow#1043). Not a substitute for a human
+# approval.
+allowAutoApprove: true

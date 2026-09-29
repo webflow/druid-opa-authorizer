@@ -1,0 +1,27 @@
+{
+  "description": "This repo's hook registration — yours. Add or remove a line per hook you run, by name.",
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"$(git rev-parse --show-toplevel)/.dpe-agent-config/hooks/agent/run\" aws-readonly",
+            "timeout": 10
+          },
+          {
+            "type": "command",
+            "command": "bash \"$(git rev-parse --show-toplevel)/.dpe-agent-config/hooks/agent/run\" infra-readonly",
+            "timeout": 10
+          },
+          {
+            "type": "command",
+            "command": "bash \"$(git rev-parse --show-toplevel)/.dpe-agent-config/hooks/agent/run\" block-rm",
+            "timeout": 10
+          }
+        ]
+      }
+    ]
+  }
+}

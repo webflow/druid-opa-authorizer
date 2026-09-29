@@ -1,0 +1,11 @@
+# Root lefthook.yml — yours. Extends the vendored git-hook rules; add your own commands under
+# the same or additional keys if this repo needs more. Run `lefthook install` once per clone.
+extends: [.dpe-agent-config/lefthook.yml]
+# Lint/style before commit, if this repo has one -- not vendored (the tooling isn't fleet-
+# uniform), so wire in your own real check here. Keep it to a check-only variant (e.g.
+# `lint_ci`, not `lint`) so the hook never mutates files on its own. Delete if not applicable.
+#
+# pre-commit:
+#   commands:
+#     lint:
+#       run: npm run lint_ci

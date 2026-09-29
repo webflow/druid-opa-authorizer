@@ -1,0 +1,33 @@
+{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$CLAUDE_PROJECT_DIR/.dpe-agent-config/hooks/agent/run aws-readonly"
+          },
+          {
+            "type": "command",
+            "command": "$CLAUDE_PROJECT_DIR/.dpe-agent-config/hooks/agent/run infra-readonly"
+          },
+          {
+            "type": "command",
+            "command": "$CLAUDE_PROJECT_DIR/.dpe-agent-config/hooks/agent/run block-rm"
+          }
+        ]
+      }
+    ],
+    "InstructionsLoaded": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$CLAUDE_PROJECT_DIR/.dpe-agent-config/hooks/agent/run log-instructions"
+          }
+        ]
+      }
+    ]
+  }
+}

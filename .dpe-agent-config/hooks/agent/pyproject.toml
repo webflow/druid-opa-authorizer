@@ -1,0 +1,16 @@
+[tool.ruff]
+line-length = 100
+target-version = "py39"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP"]
+
+[tool.mypy]
+strict = true
+# Runtime support stays Python >= 3.9 (see md-standards.md §5.4); mypy 2.x dropped 3.9 as a
+# --python-version target, so this pins the type-checking target one minor above the floor.
+# No 3.10-only syntax is used at runtime without a matching `from __future__ import annotations`.
+python_version = "3.10"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

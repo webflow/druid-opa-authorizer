@@ -1,0 +1,32 @@
+#!/usr/bin/env bash
+# The entry point both Claude Code and Codex register: `run <hook-name>`.
+#
+# Launched by script path, not `python3 -m`: `-m` puts the cwd (the consumer's repo root) at
+# sys.path[0], where their own `helpers/` would shadow ours. The import would fail with exit 1,
+# and exit 1 does not block.
+#
+# Absolute interpreter, not `python3` from PATH: this runs on every tool call, and a pyenv shim
+# costs ~300ms per invocation against ~20ms for a real binary.
+DIR="$(cd "$(dirname "$0")" && pwd)"
+
+if [ -x /usr/bin/python3 ] && /usr/bin/python3 -c '' 2>/dev/null; then
+  PYTHON=/usr/bin/python3
+else
+  PYTHON="$(python3 -c 'import sys; print(sys.executable)' 2>/dev/null)"
+fi
+[ -n "$PYTHON" ] && [ -x "$PYTHON" ] || PYTHON=python3
+
+# With no interpreter at all, `exec` would exit 127, which does not block -- so the safety hooks
+# refuse here instead, while everything else is allowed rather than blocking a whole session.
+# The list duplicates FAIL_CLOSED because there is no interpreter left to ask; test_contract.py
+# asserts the two agree.
+if ! command -v "$PYTHON" >/dev/null 2>&1; then
+  case "$1" in
+    aws-readonly|infra-readonly|block-rm)
+      echo "$1: no usable python3 interpreter; refusing by policy." >&2
+      exit 2;;
+  esac
+  exit 0
+fi
+
+exec "$PYTHON" "$DIR/cli.py" "$@"

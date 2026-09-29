@@ -1,0 +1,18 @@
+# Vendored from dpe-agent-config — do not edit. Extended by the root lefthook.yml, which is
+# yours (run `lefthook install` once per clone).
+# The directory is derived, not hardcoded: it is ".dpe-agent-config" in a consumer and "shared"
+# in the source repo, and naming only the first meant these hooks silently ran `bash` against a
+# missing file there -- exit 127, which lefthook reports but which no one reads as "the rule
+# never ran".
+commit-msg:
+  commands:
+    conventional:
+      run: |
+        d=.dpe-agent-config; [ -d "$d" ] || d=shared
+        bash "$d/hooks/git/commit-msg.sh" {1}
+pre-push:
+  commands:
+    branch-name:
+      run: |
+        d=.dpe-agent-config; [ -d "$d" ] || d=shared
+        bash "$d/hooks/git/branch-name.sh"

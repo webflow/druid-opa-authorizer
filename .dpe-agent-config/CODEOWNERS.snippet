@@ -1,0 +1,9 @@
+# dpe-agent-config: ownership
+# Data Engineering owns this repository. Kept first on purpose: CODEOWNERS gives precedence to
+# the LAST matching pattern, so any per-directory owners below this line still win for their own
+# paths. Add them there rather than editing this block.
+#
+# `init` also writes a line for the vendored directory at the END of this file, where nothing
+# added below -- including another `*` line -- can shadow it. That is what keeps the vendored
+# tree reviewable by the team that ships it.
+*  @webflow/data-engineering
