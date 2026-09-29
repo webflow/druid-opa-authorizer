@@ -10,35 +10,7 @@ on:
       - "renovate/**"
     tags:
       - "**"
-    paths-ignore:
-      - '*.md'
-      - '.gitignore'
-      - '.prettierrc'
-      - '.prettierignore'
-      - '.reviewflow.yml'
-      - 'lefthook.yml'
-      - 'CODEOWNERS'
-      - '.github/CODEOWNERS'
-      - '.github/**/*.md'
-      - '.dpe-agent-config/**'
-      - '.claude/**'
-      - '.codex/**'
-      - '.agents/**'
   pull_request:
-    paths-ignore:
-      - '*.md'
-      - '.gitignore'
-      - '.prettierrc'
-      - '.prettierignore'
-      - '.reviewflow.yml'
-      - 'lefthook.yml'
-      - 'CODEOWNERS'
-      - '.github/CODEOWNERS'
-      - '.github/**/*.md'
-      - '.dpe-agent-config/**'
-      - '.claude/**'
-      - '.codex/**'
-      - '.agents/**'
   merge_group:
 
 jobs:
